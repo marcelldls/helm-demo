@@ -22,3 +22,6 @@ spec:
   resources:
     requests:
       storage: 1000Mi
+data:
+{{ (.Files.Glob "config/*").AsConfig | indent 2 }}  # AsConfig makes into key value pairs {name: content}
+---
