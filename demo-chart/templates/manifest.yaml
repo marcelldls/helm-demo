@@ -1,0 +1,24 @@
+{{- $my_var := "entry" -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-data
+  labels:
+    app: {{ .Release.Name }}
+    {{ if .Values.string -}}
+    string: {{ .Values.string }}
+    {{- else -}}
+    string: "No string"
+    {{- end }}
+    access_dict_1: {{ .Values.dict.entry }}
+    access_dict_2: {{ index .Values.dict $my_var }}
+    access_array: {{ index .Values.array 0 }}
+    {{- range $v := .Values.array }}
+    {{ $v }}: {{ $v | sha256sum }}
+    {{- end }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Mi

@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-data
+  labels:
+    access_dict_1: {{ .Values.string }}
+    access_dict_2: {{ index .Values "demo-chart" "string" }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Mi
